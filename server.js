@@ -1,6 +1,6 @@
 import app from "./src/app.js";
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3056;
 
 const server = app.listen(PORT, () =>
     console.log(`WSV eCommerce start with port: ${PORT}`)
