@@ -6,6 +6,7 @@ import compression from "compression";
 
 import instanceMongodb from "./dbs/init.mongodb.js";
 import { checkOverload } from "./helpers/check.connect.js";
+import routes from "./routes/index.js";
 
 const app = express();
 
@@ -19,6 +20,7 @@ instanceMongodb.getInstance();
 checkOverload();
 
 // init router
+app.use('/', routes)
 
 // handling error
 

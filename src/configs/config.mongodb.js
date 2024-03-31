@@ -1,7 +1,6 @@
 "use strict";
 
-import dotenv from 'dotenv'
-dotenv.config()
+import { env } from "./config.environment.js";
 
 // level 0
 // const config = {
@@ -44,25 +43,25 @@ dotenv.config()
 // Level 3
 const dev = {
     app: {
-        port: process.env.DEV_APP_PORT || 3052,
+        port: env.DEV_APP_PORT || 3052,
     },
 
     db: {
-        host: process.env.DEV_APP_HOST || "localhost",
-        port: process.env.DEV_APP_PORT || 27017,
-        name: process.env.DEV_APP_NAME || "shopDev",
+        host: env.DEV_APP_HOST || "localhost",
+        port: env.DEV_APP_PORT || 27017,
+        name: env.DEV_APP_NAME || "shopDev",
     },
 };
 
 const pro = {
     app: {
-        port: process.env.PRO_APP_PORT || 3000,
+        port: env.PRO_APP_PORT || 3000,
     },
 
     db: {
-        host: process.env.PRO_APP_HOST || "localhost",
-        port: process.env.PRO_APP_PORT || 27017,
-        name: process.env.PRO_APP_NAME || "shopPro",
+        host: env.PRO_APP_HOST || "localhost",
+        port: env.PRO_APP_PORT || 27017,
+        name: env.PRO_APP_NAME || "shopPro",
     },
 };
 
