@@ -1,21 +1,18 @@
 "use strict";
 
 import mongoose from "mongoose";
-import dotenv from "dotenv";
 
 import { countConnect } from "../helpers/check.connect.js";
 import { config } from "../configs/config.mongodb.js";
+import { env } from "../configs/config.environment.js";
 
-// Config dotenv
-dotenv.config()
-
-const env = process.env.NODE_ENV || 'dev'
+const NODE_ENV = env.NODE_ENV || "dev";
 const {
     db: { host, port, name },
-} = config[env];
+} = config[NODE_ENV];
 const connectString = `mongodb://${host}:${port}/${name}`;
 
-console.log(`connectString::: ${connectString}`)
+console.log(`connectString::: ${connectString}`);
 class Database {
     constructor() {
         this.connect();
