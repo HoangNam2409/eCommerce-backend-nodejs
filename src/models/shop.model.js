@@ -42,7 +42,7 @@ const shopSchema = new mongoose.Schema(
     },
     {
         timestamps: true,
-        collation: COLLECTION_NAME,
+        collection: COLLECTION_NAME,
     }
 );
 

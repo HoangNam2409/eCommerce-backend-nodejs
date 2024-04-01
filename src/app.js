@@ -14,13 +14,15 @@ const app = express();
 app.use(morgan("dev"));
 app.use(helmet());
 app.use(compression());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // init db
 instanceMongodb.getInstance();
 checkOverload();
 
 // init router
-app.use('/', routes)
+app.use("/", routes);
 
 // handling error
 

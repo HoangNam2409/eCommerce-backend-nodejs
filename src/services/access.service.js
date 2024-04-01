@@ -1,8 +1,12 @@
 "use strict";
 
 import bcrypt from "bcrypt";
-import Shop from "../models/shop.model.js";
 import crypto from "crypto";
+
+import Shop from "../models/shop.model.js";
+import KeyTokenService from "./keyToken.service.js";
+import { createTokenPair } from "../auth/authUtils.js";
+import { getInfoData } from "../utils/index.js";
 
 const RoleShop = {
     SHOP: "SHOP",
@@ -38,15 +42,49 @@ class AccessService {
 
             if (newShop) {
                 // Created privateKey, publicKey
-                const { privateKey, publicKey } = crypto.generateKeyPairSync(
-                    "rsa",
-                    {
-                        modulusLength: 4096,
-                    }
-                );
+                const publicKey = crypto.randomBytes(64).toString('hex');
+                const privateKey = crypto.randomBytes(64).toString('hex');
 
-                console.log({ privateKey, publicKey }); // save collection KeyStore
+                console.log({ privateKey, publicKey }); 
+
+                // save collection KeyStore
+                const keyStore = await KeyTokenService.createKeyToken({
+                    userId: newShop._id,
+                    publicKey,
+                    privateKey,
+                });
+
+                if (!keyStore) {
+                    return {
+                        code: "xxx",
+                        message: "keyStore Error",
+                    };
+                }
+
+                // Create token pair
+                const tokens = await createTokenPair(
+                    { userId: newShop._id, email },
+                    publicKey,
+                    privateKey
+                );
+                console.log(`Created Token Success:: `, tokens);
+
+                return {
+                    code: 201,
+                    metadata: {
+                        shop: getInfoData({
+                            fields: ["_id", "name", "email"],
+                            object: newShop,
+                        }),
+                        tokens,
+                    },
+                };
             }
+
+            return {
+                code: 200,
+                metadata: null,
+            };
         } catch (error) {
             return {
                 code: "xxx",
