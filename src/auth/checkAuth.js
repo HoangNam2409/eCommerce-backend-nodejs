@@ -33,6 +33,7 @@ const apiKey = async (req, res, next) => {
 };
 
 // Middleware permissions
+// Use closure to use an external variable called permission
 const permission = (permission) => {
     return (req, res, next) => {
         if (!req.objKey.permissions) {
@@ -55,4 +56,11 @@ const permission = (permission) => {
     };
 };
 
-export { apiKey, permission };
+// Handle Error
+const asyncHandleError = (fn) => {
+    return (req, res, next) => {
+        fn(req, res, next).catch(next);
+    };
+};
+
+export { apiKey, permission, asyncHandleError };
