@@ -47,9 +47,9 @@ const dev = {
     },
 
     db: {
-        host: env.DEV_APP_HOST || "localhost",
-        port: env.DEV_APP_PORT || 27017,
-        name: env.DEV_APP_NAME || "shopDev",
+        host: env.DEV_DB_HOST || "localhost",
+        port: env.DEV_DB_PORT || 27017,
+        name: env.DEV_DB_NAME || "shopDev",
     },
 };
 
@@ -59,9 +59,9 @@ const pro = {
     },
 
     db: {
-        host: env.PRO_APP_HOST || "localhost",
-        port: env.PRO_APP_PORT || 27017,
-        name: env.PRO_APP_NAME || "shopPro",
+        host: env.PRO_DB_HOST || "localhost",
+        port: env.PRO_DB_PORT || 27017,
+        name: env.PRO_DB_NAME || "shopPro",
     },
 };
 
