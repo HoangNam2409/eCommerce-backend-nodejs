@@ -18,6 +18,12 @@ const RoleShop = {
 };
 
 class AccessService {
+    // LOGOUT
+    // Delete KeyStore
+    static logout = async (keyStore) => {
+        return await KeyTokenService.deleteKeyById(keyStore._id);
+    };
+
     // LOGIN
     /*
         1 - Check email in dbs
@@ -44,16 +50,18 @@ class AccessService {
         const publicKey = crypto.randomBytes(64).toString("hex");
         const privateKey = crypto.randomBytes(64).toString("hex");
 
+        const { _id: userId } = foundShop;
+
         // 4. Generate token
         const tokens = await createTokenPair(
-            { userId: foundShop._id, email },
+            { userId, email },
             publicKey,
             privateKey
         );
 
         // Save publicKey and privateKey in collection
         await KeyTokenService.createKeyToken({
-            userId: foundShop._id,
+            userId,
             publicKey,
             privateKey,
             refreshToken: tokens.refreshToken,
@@ -72,7 +80,7 @@ class AccessService {
     static signUp = async ({ name, email, password }) => {
         // try {
         // Step 1: Check email exists?
-        const holderShop = await Shop.findByEmail({ email }).lean();
+        const holderShop = await findByEmail({ email });
 
         if (holderShop) {
             throw new BadRequestError("Error: Shop already registered");

@@ -13,9 +13,9 @@ const ReasonStatusCode = {
 };
 
 class ErrorResponse extends Error {
-    constructor(message, status) {
+    constructor(message, statusCode) {
         super(message);
-        this.status = status;
+        this.status = statusCode;
     }
 }
 
@@ -46,4 +46,18 @@ class AuthFailureError extends ErrorResponse {
     }
 }
 
-export { ConflictRequestError, BadRequestError, AuthFailureError };
+class NotFoundError extends ErrorResponse {
+    constructor(
+        message = ReasonPhrases.NOT_FOUND,
+        statusCode = StatusCodes.NOT_FOUND
+    ) {
+        super(message, statusCode);
+    }
+}
+
+export {
+    ConflictRequestError,
+    BadRequestError,
+    AuthFailureError,
+    NotFoundError,
+};

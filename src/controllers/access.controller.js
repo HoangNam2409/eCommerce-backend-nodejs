@@ -4,6 +4,14 @@ import { CREATE, SuccessResponse } from "../core/success.response.js";
 import AccessService from "../services/access.service.js";
 
 class AccessController {
+    // LOGOUT
+    logout = async (req, res, next) => {
+        new SuccessResponse({
+            message: "Logout successfully!",
+            metadata: await AccessService.logout(req.keyStore),
+        }).send(res);
+    };
+
     // LOGIN
     login = async (req, res, next) => {
         new SuccessResponse({

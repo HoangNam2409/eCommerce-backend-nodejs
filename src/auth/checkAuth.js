@@ -56,11 +56,4 @@ const permission = (permission) => {
     };
 };
 
-// Handle Error
-const asyncHandleError = (fn) => {
-    return (req, res, next) => {
-        fn(req, res, next).catch(next);
-    };
-};
-
-export { apiKey, permission, asyncHandleError };
+export { apiKey, permission };

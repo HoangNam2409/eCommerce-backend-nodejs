@@ -3,13 +3,19 @@
 import express from "express";
 
 import accessController from "../../controllers/access.controller.js";
-import { asyncHandleError } from "../../auth/checkAuth.js";
+import { asyncHandler } from "../../helpers/asyncHandler.js";
+import { authentication } from "../../auth/authUtils.js";
 
-const route = express.Router();
+const router = express.Router();
 
 // Login
-route.post("/shop/login", asyncHandleError(accessController.login));
+router.post("/shop/login", asyncHandler(accessController.login));
 // Sign up
-route.post("/shop/signup", asyncHandleError(accessController.signUp));
+router.post("/shop/signup", asyncHandler(accessController.signUp));
 
-export default route;
+// Authentication //
+router.use(authentication);
+// Logout
+router.post("/shop/logout", asyncHandler(accessController.logout));
+
+export default router;
