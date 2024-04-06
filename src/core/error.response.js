@@ -30,7 +30,7 @@ class ConflictRequestError extends ErrorResponse {
 
 class BadRequestError extends ErrorResponse {
     constructor(
-        message = ReasonStatusCode.FORBIDDEN,
+        message = ReasonStatusCode.CONFLICT,
         statusCode = StatusCode.FORBIDDEN
     ) {
         super(message, statusCode);
@@ -55,9 +55,19 @@ class NotFoundError extends ErrorResponse {
     }
 }
 
+class ForbiddenError extends ErrorResponse {
+    constructor(
+        message = ReasonPhrases.FORBIDDEN,
+        statusCode = StatusCodes.FORBIDDEN
+    ) {
+        super(message, statusCode);
+    }
+}
+
 export {
     ConflictRequestError,
     BadRequestError,
     AuthFailureError,
     NotFoundError,
+    ForbiddenError,
 };

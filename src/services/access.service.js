@@ -5,10 +5,15 @@ import crypto from "crypto";
 
 import Shop from "../models/shop.model.js";
 import KeyTokenService from "./keyToken.service.js";
-import { createTokenPair } from "../auth/authUtils.js";
+import { createTokenPair, verifyJWT } from "../auth/authUtils.js";
 import { getInfoData } from "../utils/index.js";
-import { AuthFailureError, BadRequestError } from "../core/error.response.js";
+import {
+    AuthFailureError,
+    BadRequestError,
+    ForbiddenError,
+} from "../core/error.response.js";
 import { findByEmail } from "./shop.service.js";
+import { token } from "morgan";
 
 const RoleShop = {
     SHOP: "SHOP",
@@ -18,6 +23,68 @@ const RoleShop = {
 };
 
 class AccessService {
+    // Handler Refresh Token
+    // Check this token used?
+    static handlerRefreshToken = async (refreshToken) => {
+        // Check xem token này đã được sử dụng chưa?
+        const foundToken = await KeyTokenService.findByRefreshTokenUsed(
+            refreshToken
+        );
+
+        // Nếu có
+        if (foundToken) {
+            // decode xem là ai
+            const { userId, email } = await verifyJWT(
+                refreshToken,
+                foundToken.privateKey
+            );
+            console.log({ userId, email });
+
+            // Xoá tất cả token trong KeyStore
+            await KeyTokenService.deleteKeyByUserId(userId);
+            throw new ForbiddenError(
+                "Something wrong happened!! Please re login"
+            );
+        }
+
+        // Nếu chưa có
+        const holderToken = await KeyTokenService.findByRefreshToken(
+            refreshToken
+        );
+        if (!holderToken) throw new AuthFailureError("Shop not registered!1");
+
+        // Nếu tìm được thì verify token
+        const { userId, email } = await verifyJWT(
+            refreshToken,
+            holderToken.privateKey
+        );
+        console.log("[2]---", { userId, email });
+        // Check userId
+        const foundShop = await findByEmail({ email });
+        if (!foundShop) throw new AuthFailureError("Shop not registered!2");
+
+        // Create new token
+        const tokens = await createTokenPair(
+            { userId, email },
+            holderToken.publicKey,
+            holderToken.privateKey
+        );
+        // Update token
+        await holderToken.updateOne({
+            $set: {
+                refreshToken: tokens.refreshToken,
+            },
+            $push: {
+                refreshTokensUsed: refreshToken, // Đã được sử dụng để lấy token mới rồi
+            },
+        });
+
+        return {
+            user: { userId, email },
+            tokens,
+        };
+    };
+
     // LOGOUT
     // Delete KeyStore
     static logout = async (keyStore) => {

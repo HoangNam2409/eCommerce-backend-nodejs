@@ -24,6 +24,7 @@ const keyTokenSchema = new mongoose.Schema(
         },
 
         // Dùng để tách các token trái phép của Hacker
+        // Lưu lại các Token đã được sử dụng
         refreshTokensUsed: {
             type: Array,
             default: [],

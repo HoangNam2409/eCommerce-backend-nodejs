@@ -79,4 +79,9 @@ const authentication = asyncHandler(async (req, res, next) => {
     }
 });
 
-export { createTokenPair, authentication };
+// Verify Token
+const verifyJWT = async (token, keySecret) => {
+    return jwt.verify(token, keySecret);
+};
+
+export { createTokenPair, authentication, verifyJWT };
