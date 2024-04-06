@@ -1,6 +1,7 @@
 "use strict";
 
 import mongoose from "mongoose";
+import { Types } from "mongoose";
 
 import KeyToken from "../models/keyToken.model.js";
 
@@ -53,7 +54,6 @@ class KeyTokenService {
 
     // Delete KeyToken
     static deleteKeyById = async (id) => {
-        console.log(id);
         return await KeyToken.deleteOne(id);
     };
 
@@ -66,7 +66,9 @@ class KeyTokenService {
 
     // Delete Key Token
     static deleteKeyByUserId = async (userId) => {
-        return await KeyToken.findByIdAndDelete({ user: userId });
+        return await KeyToken.findOneAndDelete({
+            user: new mongoose.Types.ObjectId(userId),
+        });
     };
 
     // Find refresh Token

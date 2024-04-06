@@ -13,7 +13,6 @@ import {
     ForbiddenError,
 } from "../core/error.response.js";
 import { findByEmail } from "./shop.service.js";
-import { token } from "morgan";
 
 const RoleShop = {
     SHOP: "SHOP",

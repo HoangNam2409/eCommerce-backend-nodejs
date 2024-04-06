@@ -19,7 +19,7 @@ x-api-key: a1b03462bf6c55bfdc4e22b63dd17bba8899778e0e92b411da5b72e07e52a0f8b4bb8
 
 
 {
-    "email": "shoptipjs09@gmail.com",
+    "email": "shoptipjs08@gmail.com",
     "password": "123456,"
 }
 
@@ -27,8 +27,8 @@ x-api-key: a1b03462bf6c55bfdc4e22b63dd17bba8899778e0e92b411da5b72e07e52a0f8b4bb8
 POST {{url_dev}}/shop/logout
 Content-Type: application/json
 x-api-key: a1b03462bf6c55bfdc4e22b63dd17bba8899778e0e92b411da5b72e07e52a0f8b4bb8ed4267a608bc3bf74166fb6d491ffa36543b8a129e8bb7198a406af8660
-x-client-id: 660ea8ace79436dd48ba6e43
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjBlYThhY2U3OTQzNmRkNDhiYTZlNDMiLCJlbWFpbCI6InNob3B0aXBqczA5QGdtYWlsLmNvbSIsImlhdCI6MTcxMjIzNjk4NCwiZXhwIjoxNzEyNDA5Nzg0fQ.oKFBA5DWcvoYJgokR1Raeeeq5ebna_2yRUZqkXM6krY
+x-client-id: 660cf50a093bc91e817424af
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjBjZjUwYTA5M2JjOTFlODE3NDI0YWYiLCJlbWFpbCI6InNob3B0aXBqczA4QGdtYWlsLmNvbSIsImlhdCI6MTcxMjM3ODcxOSwiZXhwIjoxNzEyNTUxNTE5fQ.olRdhABVuFGFI-6qubA6NlCUh9WHRml35DCGqLhkU9o
 
 ### HandlerRefreshToken
 POST {{url_dev}}/shop/handlerRefreshToken
