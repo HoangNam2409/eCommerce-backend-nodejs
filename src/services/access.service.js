@@ -73,7 +73,7 @@ class AccessService {
             $set: {
                 refreshToken: tokens.refreshToken,
             },
-            $push: {
+            $addToSet: {
                 refreshTokensUsed: refreshToken, // Đã được sử dụng để lấy token mới rồi
             },
         });
