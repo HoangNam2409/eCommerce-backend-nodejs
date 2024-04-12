@@ -8,16 +8,15 @@ x-client-id: 660ea8ace79436dd48ba6e43
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjBlYThhY2U3OTQzNmRkNDhiYTZlNDMiLCJlbWFpbCI6InNob3B0aXBqczA5QGdtYWlsLmNvbSIsImlhdCI6MTcxMjkxMjUwNCwiZXhwIjoxNzEzMDg1MzA0fQ.vskVnEcoEPQzE9XDSZ1_i31hE-9Weld4t0NMce3Wg1g
 
 {
-    "product_name": "New Jeans" ,
+    "product_name": "New Jeans 2" ,
     "product_thumb": "product_thumb",
-    "product_description": "High-quality denim jeans",
+    "product_description": "High-quality denim jeans 2",
     "product_price": 50,
     "product_quantity": 5,
     "product_type": "Clothing",
-    "product_shop": "660ea8ace79436dd48ba6e43",
     "product_attributes": {
-        "brand": "Levi",
-        "size": "L",
+        "brand": "Levi 2",
+        "size": "M",
         "material": "Denim"
     }
 }

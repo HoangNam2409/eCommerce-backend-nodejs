@@ -44,8 +44,11 @@ class Product {
     }
 
     // Create new product
-    async createProduct() {
-        return await _ProductModel.create(this);
+    async createProduct(product_id) {
+        return await _ProductModel.create({
+            ...this,
+            _id: product_id,
+        });
     }
 }
 
@@ -54,15 +57,16 @@ class Clothing extends Product {
     // Override the class Product method
     async createProduct() {
         // Create newClothing inherit properties product_attributes of class Product
-        const newClothing = await _ClothingModel.create(
-            this.product_attributes
-        );
+        const newClothing = await _ClothingModel.create({
+            ...this.product_attributes,
+            product_shop: this.product_shop,
+        });
         if (!newClothing) {
             throw new BadRequestError("Create new Clothing error");
         }
 
         // Create newProduct of class Product
-        const newProduct = await super.createProduct();
+        const newProduct = await super.createProduct(newClothing._id);
         if (!newProduct) {
             throw new BadRequestError("Create new Product error");
         }
@@ -76,9 +80,10 @@ class Electronics extends Product {
     // Override the class Product method
     async createProduct() {
         // Create newElectronic inherit properties product_attributes of class Product
-        const newElectronic = await _ClothingModel.create(
-            this.product_attributes
-        );
+        const newElectronic = await _ClothingModel.create({
+            ...this.product_attributes,
+            product_shop: this.product_shop,
+        });
         if (!newElectronic) {
             throw new BadRequestError("Create new Electronics error");
         }
