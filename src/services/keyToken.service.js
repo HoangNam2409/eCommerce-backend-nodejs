@@ -49,7 +49,7 @@ class KeyTokenService {
     static findByUserId = async (userId) => {
         return await KeyToken.findOne({
             user: new mongoose.Types.ObjectId(userId),
-        }).lean();
+        });
     };
 
     // Delete KeyToken

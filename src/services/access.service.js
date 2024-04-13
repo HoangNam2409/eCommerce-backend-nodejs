@@ -22,6 +22,53 @@ const RoleShop = {
 };
 
 class AccessService {
+    // Handler Refresh Token V2
+    // Check this token used?
+    static handlerRefreshTokenV2 = async ({ refreshToken, user, keyStore }) => {
+        const { userId, email } = user;
+        console.log({ userId, email });
+
+        // Check xem token này đã được sử dụng chưa?
+        if (keyStore.refreshTokensUsed.includes(refreshToken)) {
+            // Xoá tất cả token trong KeyStore
+            await KeyTokenService.deleteKeyByUserId(userId);
+            throw new ForbiddenError(
+                "Something wrong happened!! Please re login"
+            );
+        }
+
+        if (keyStore.refreshToken !== refreshToken) {
+            throw new AuthFailureError("Shop not registered!");
+        }
+
+        // Check userId
+        const foundShop = await findByEmail({ email });
+        if (!foundShop) throw new AuthFailureError("Shop not registered!");
+
+        // Create new token
+        const tokens = await createTokenPair(
+            { userId, email },
+            keyStore.publicKey,
+            keyStore.privateKey
+        );
+        // Update token
+        await keyStore.updateOne({
+            $set: {
+                refreshToken: tokens.refreshToken,
+            },
+            $addToSet: {
+                refreshTokensUsed: refreshToken, // Đã được sử dụng để lấy token mới rồi
+            },
+        });
+
+        return {
+            user,
+            tokens,
+        };
+    };
+
+    // ----------------------------------------------------------------
+
     // Handler Refresh Token
     // Check this token used?
     static handlerRefreshToken = async (refreshToken) => {
@@ -90,6 +137,8 @@ class AccessService {
         return await KeyTokenService.deleteKeyById(keyStore._id);
     };
 
+    // ----------------------------------------------------------------
+
     // LOGIN
     /*
         1 - Check email in dbs
@@ -141,6 +190,8 @@ class AccessService {
             tokens,
         };
     };
+
+    // ----------------------------------------------------------------
 
     // SIGN UP
     static signUp = async ({ name, email, password }) => {

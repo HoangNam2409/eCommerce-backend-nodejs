@@ -4,6 +4,18 @@ import { CREATE, SuccessResponse } from "../core/success.response.js";
 import AccessService from "../services/access.service.js";
 
 class AccessController {
+    // Handler refreshToken Version 2
+    handlerRefreshTokenV2 = async (req, res, next) => {
+        new SuccessResponse({
+            message: "Get token successfully!",
+            metadata: await AccessService.handlerRefreshTokenV2({
+                refreshToken: req.refreshToken,
+                user: req.user,
+                keyStore: req.keyStore,
+            }),
+        }).send(res);
+    };
+
     // Handler refreshToken
     handlerRefreshToken = async (req, res, next) => {
         new SuccessResponse({
@@ -11,7 +23,7 @@ class AccessController {
             metadata: await AccessService.handlerRefreshToken(
                 req.body.refreshToken
             ),
-        }).send(res);
+        });
     };
 
     // LOGOUT
