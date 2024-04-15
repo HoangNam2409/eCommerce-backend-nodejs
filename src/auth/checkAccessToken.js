@@ -10,7 +10,7 @@ const checkAccessToken = (userId, keyStore, accessToken) => {
         throw new AuthFailureError("Shop not registered or login");
     }
 
-    if (!decoded.userId !== userId) {
+    if (decoded.userId !== userId) {
         throw new AuthFailureError("Invalid userId access");
     }
 

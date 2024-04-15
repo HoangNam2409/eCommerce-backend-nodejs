@@ -4,20 +4,25 @@ import {
     _ProductModel,
     _ClothingModel,
     _ElectronicModel,
+    _FurnitureModel,
 } from "../models/product.model.js";
 import { BadRequestError } from "../core/error.response.js";
 
 // define Factory class to create product
 class ProductFactory {
+    static productRegistry = {};
+
+    static registerProductType(type, classRef) {
+        ProductFactory.productRegistry[type] = classRef;
+    }
+
     static async createProduct(type, payload) {
-        switch (type) {
-            case "Clothing":
-                return new Clothing(payload).createProduct();
-            case "Electronics":
-                return new Electronics(payload).createProduct();
-            default:
-                throw new BadRequestError("Invalid Product type: ", type);
+        const productType = ProductFactory.productRegistry[type];
+        if (!productType) {
+            throw new BadRequestError("Invalid product type: ", type);
         }
+
+        return new productType(payload).createProduct();
     }
 }
 
@@ -97,5 +102,33 @@ class Electronics extends Product {
         return newProduct;
     }
 }
+
+// Define sub-class for different product type Furniture
+class Furniture extends Product {
+    // Override the class Product method
+    async createProduct() {
+        // Create newFurniture inherit properties product_attributes of class Product
+        const newFurniture = await _FurnitureModel.create({
+            ...this.product_attributes,
+            product_shop: this.product_shop,
+        });
+        if (!newFurniture) {
+            throw new BadRequestError("Create new Furniture Error");
+        }
+
+        // Create newProduct of class Product
+        const newProduct = await super.createProduct(newFurniture._id);
+        if (!newProduct) {
+            throw new BadRequestError("Create new Product error");
+        }
+
+        return newProduct;
+    }
+}
+
+// Register product types
+ProductFactory.registerProductType("Clothing", Clothing);
+ProductFactory.registerProductType("Electronics", Electronics);
+ProductFactory.registerProductType("Furniture", Furniture);
 
 export default ProductFactory;
