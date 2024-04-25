@@ -8,7 +8,7 @@ x-api-key: a1b03462bf6c55bfdc4e22b63dd17bba8899778e0e92b411da5b72e07e52a0f8b4bb8
 {
     "name": "Shop TIPS",
     "email": "shoptipjs09@gmail.com",
-    "password": "123456,"
+    "password": "123456"
 }
 
 
@@ -20,7 +20,7 @@ x-api-key: a1b03462bf6c55bfdc4e22b63dd17bba8899778e0e92b411da5b72e07e52a0f8b4bb8
 
 {
     "email": "shoptipjs09@gmail.com",
-    "password": "123456,"
+    "password": "123456"
 }
 
 ### Logout 

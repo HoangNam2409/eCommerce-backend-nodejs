@@ -26,7 +26,6 @@ class AccessService {
     // Check this token used?
     static handlerRefreshTokenV2 = async ({ refreshToken, user, keyStore }) => {
         const { userId, email } = user;
-        console.log({ userId, email });
 
         // Check xem token này đã được sử dụng chưa?
         if (keyStore.refreshTokensUsed.includes(refreshToken)) {

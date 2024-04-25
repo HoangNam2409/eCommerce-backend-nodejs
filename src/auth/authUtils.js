@@ -110,7 +110,6 @@ const authenticationV2 = asyncHandler(async (req, res, next) => {
             // check RefreshToken
             const decoded = checkRefreshToken(userId, keyStore, refreshToken);
             // const decoded = jwt.verify(refreshToken, keyStore.privateKey);
-            console.log("Decoded::::", decoded);
 
             req.keyStore = keyStore;
             req.user = decoded;

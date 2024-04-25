@@ -4,11 +4,11 @@
 POST {{url_dev}}/product
 Content-Type: application/json
 x-api-key: a1b03462bf6c55bfdc4e22b63dd17bba8899778e0e92b411da5b72e07e52a0f8b4bb8ed4267a608bc3bf74166fb6d491ffa36543b8a129e8bb7198a406af8660
-x-client-id: 661cb823649f9632147a9405
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFjYjgyMzY0OWY5NjMyMTQ3YTk0MDUiLCJlbWFpbCI6InNob3B0aXBqczA5QGdtYWlsLmNvbSIsImlhdCI6MTcxMzE1ODI2NSwiZXhwIjoxNzEzMzMxMDY1fQ.Lm5rciD1NzFOsVzgayHmAD2nCSM5fZh4LHSFlUaaeAw
+x-client-id: 66200ec28e551c7ee127f9fd
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjIwMGVjMjhlNTUxYzdlZTEyN2Y5ZmQiLCJlbWFpbCI6InNob3B0aXBqczA5QGdtYWlsLmNvbSIsImlhdCI6MTcxMzM3Njk2OCwiZXhwIjoxNzEzNTQ5NzY4fQ.mHRVlUGanODNt1BReGyPXg0_WC8K3vlJ51S5JXGjPgI
 
 {
-    "product_name": "Furniture" ,
+    "product_name": "Noi That Cao Cap" ,
     "product_thumb": "product_thumb",
     "product_description": "High-quality Furniture",
     "product_price": 100,
@@ -20,3 +20,10 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjFjYjgyMzY0
         "material": "Wood"
     }
 }
+
+### Get all drafts for shop
+GET {{url_dev}}/product/drafts/all
+Content-Type: application/json
+x-api-key: a1b03462bf6c55bfdc4e22b63dd17bba8899778e0e92b411da5b72e07e52a0f8b4bb8ed4267a608bc3bf74166fb6d491ffa36543b8a129e8bb7198a406af8660
+x-client-id: 66200ec28e551c7ee127f9fd
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjIwMGVjMjhlNTUxYzdlZTEyN2Y5ZmQiLCJlbWFpbCI6InNob3B0aXBqczA5QGdtYWlsLmNvbSIsImlhdCI6MTcxMzM3Njk2OCwiZXhwIjoxNzEzNTQ5NzY4fQ.mHRVlUGanODNt1BReGyPXg0_WC8K3vlJ51S5JXGjPgI
