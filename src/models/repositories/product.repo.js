@@ -6,6 +6,7 @@ import {
     _ElectronicModel,
     _FurnitureModel,
 } from "../product.model.js";
+import { getSelectData, unGetSelectData } from "../../utils/index.js";
 
 const findAllDraftForShop = async ({ query, limit, skip }) => {
     return await queryProduct({ query, limit, skip });
@@ -63,6 +64,26 @@ const unPublishProductForShop = async ({ product_shop, product_id }) => {
     return modifiedCount;
 };
 
+const findAllProducts = async ({ limit, sort, page, filter, select }) => {
+    const skip = (page - 1) * limit;
+    const sortBy = sort === "ctime" ? { _id: -1 } : { _id: 1 };
+    const products = await _ProductModel
+        .find(filter)
+        .sort(sortBy)
+        .skip(skip)
+        .limit(limit)
+        .select(getSelectData(select))
+        .lean();
+
+    return products;
+};
+
+const findProduct = async ({ product_id, unSelect }) => {
+    return await _ProductModel
+        .findById(product_id)
+        .select(unGetSelectData(unSelect));
+};
+
 const queryProduct = async ({ query, limit, skip }) => {
     return await _ProductModel
         .find(query)
@@ -80,4 +101,6 @@ export {
     findAllPublishForShop,
     unPublishProductForShop,
     searchProductByUser,
+    findAllProducts,
+    findProduct,
 };
