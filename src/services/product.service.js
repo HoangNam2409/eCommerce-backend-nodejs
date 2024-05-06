@@ -15,7 +15,12 @@ import {
     searchProductByUser,
     findAllProducts,
     findProduct,
+    updateProductById,
 } from "../models/repositories/product.repo.js";
+import {
+    removeUndefinedObject,
+    updateNestedObjectParser,
+} from "../utils/index.js";
 
 // define Factory class to create product
 class ProductFactory {
@@ -32,6 +37,16 @@ class ProductFactory {
         }
 
         return new productType(payload).createProduct();
+    }
+
+    // Update product
+    static async updateProduct(type, productId, payload) {
+        const productType = ProductFactory.productRegistry[type];
+        if (!productType) {
+            throw new BadRequestError("Invalid product type: ", type);
+        }
+
+        return new productType(payload).updateProduct(productId);
     }
 
     // Publish a product by a seller
@@ -110,6 +125,15 @@ class Product {
             _id: product_id,
         });
     }
+
+    // Update product
+    async updateProduct(productId, payload) {
+        return await updateProductById({
+            productId,
+            payload,
+            model: _ProductModel,
+        });
+    }
 }
 
 // define sub-class for different product type Clothing
@@ -132,6 +156,27 @@ class Clothing extends Product {
         }
 
         return newProduct;
+    }
+
+    async updateProduct(productId) {
+        // 1. Remove attr has null undefined
+        const objectParams = removeUndefinedObject(this);
+        // 2. Check xem update ở chỗ nào?
+        if (objectParams.product_attributes) {
+            // Update child
+            await updateProductById({
+                productId,
+                payload: objectParams,
+                model: _ClothingModel,
+            });
+        }
+
+        const updateProduct = await super.updateProduct(
+            productId,
+            objectParams
+        );
+
+        return updateProduct;
     }
 }
 
@@ -178,6 +223,24 @@ class Furniture extends Product {
         }
 
         return newProduct;
+    }
+
+    async updateProduct(productId) {
+        const objectParams = removeUndefinedObject(this);
+        if (objectParams.product_attributes) {
+            await updateProductById({
+                productId,
+                payload: objectParams.product_attributes,
+                model: _FurnitureModel,
+            });
+        }
+
+        const updateProduct = await super.updateProduct(
+            productId,
+            updateNestedObjectParser(objectParams)
+        );
+
+        return updateProduct;
     }
 }
 

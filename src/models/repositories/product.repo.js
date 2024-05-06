@@ -95,6 +95,17 @@ const queryProduct = async ({ query, limit, skip }) => {
         .exec();
 };
 
+const updateProductById = async ({
+    productId,
+    payload,
+    model,
+    isNew = true,
+}) => {
+    return await model.findByIdAndUpdate(productId, payload, {
+        new: isNew,
+    });
+};
+
 export {
     findAllDraftForShop,
     publishProductByShop,
@@ -103,4 +114,5 @@ export {
     searchProductByUser,
     findAllProducts,
     findProduct,
+    updateProductById,
 };
