@@ -21,6 +21,7 @@ import {
     removeUndefinedObject,
     updateNestedObjectParser,
 } from "../utils/index.js";
+import { insertInventory } from "../models/repositories/inventory.repo.js";
 
 // define Factory class to create product
 class ProductFactory {
@@ -120,10 +121,21 @@ class Product {
 
     // Create new product
     async createProduct(product_id) {
-        return await _ProductModel.create({
+        const newProduct = await _ProductModel.create({
             ...this,
             _id: product_id,
         });
+
+        if (newProduct) {
+            // add product_stock in inventory collection
+            await insertInventory({
+                productId: newProduct._id,
+                shopId: newProduct.product_shop,
+                stock: newProduct.product_quantity,
+            });
+        }
+
+        return newProduct;
     }
 
     // Update product
