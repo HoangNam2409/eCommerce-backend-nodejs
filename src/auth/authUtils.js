@@ -131,7 +131,7 @@ const authenticationV2 = asyncHandler(async (req, res, next) => {
         const decoded = checkAccessToken(userId, keyStore, accessToken);
 
         req.keyStore = keyStore;
-        req.decoded = decoded;
+        req.user = decoded;
 
         // Ok all => return next()
         return next();
