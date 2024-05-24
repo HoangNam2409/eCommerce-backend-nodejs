@@ -6,7 +6,11 @@ import {
     _ElectronicModel,
     _FurnitureModel,
 } from "../product.model.js";
-import { getSelectData, unGetSelectData } from "../../utils/index.js";
+import {
+    convertToObjectIdMongodb,
+    getSelectData,
+    unGetSelectData,
+} from "../../utils/index.js";
 
 const findAllDraftForShop = async ({ query, limit, skip }) => {
     return await queryProduct({ query, limit, skip });
@@ -84,6 +88,12 @@ const findProduct = async ({ product_id, unSelect }) => {
         .select(unGetSelectData(unSelect));
 };
 
+const getProductById = async (productId) => {
+    return await _ProductModel.findOne({
+        _id: convertToObjectIdMongodb(productId),
+    });
+};
+
 const queryProduct = async ({ query, limit, skip }) => {
     return await _ProductModel
         .find(query)
@@ -115,4 +125,5 @@ export {
     findAllProducts,
     findProduct,
     updateProductById,
+    getProductById,
 };
