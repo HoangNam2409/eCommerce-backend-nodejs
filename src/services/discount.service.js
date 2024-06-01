@@ -173,13 +173,22 @@ class DiscountService {
     /*
         Get discount_code amount
 
-        Products = {
-            productId,
-            shopId,
-            quantity,
-            price,
-            name
-        }
+        products = [
+            {
+                productId,
+                shopId,
+                quantity,
+                price,
+                name
+            }, 
+            {
+                productId,
+                shopId,
+                quantity,
+                price,
+                name
+            }
+        ]
     */
 
     static async getDiscountAmount({ codeId, userId, shopId, products }) {
@@ -218,29 +227,25 @@ class DiscountService {
             throw new NotFoundError("Discount code has expired!");
         }
 
-        // Check xem co xet gia tri toi thieu hay khong
-        let totalOrder = 0;
-        if (discount_min_order_value > 0) {
-            // get total
-            totalOrder = products.reduce((acc, product) => {
-                return acc + product.quantity * product.price;
-            }, 0);
-
-            if (totalOrder < discount_min_order_value) {
-                throw new NotFoundError(
-                    `Discount require a minium order value of ${discount_min_order_value}!`
-                );
-            }
-        }
-
-        /*
-            discount_max_uses_per_user = 2
-        */
+        const totalOrder = products.reduce((acc, product) => {
+            return acc + product.quantity * product.price;
+        }, 0);
 
         const amount =
             discount_type === "fixed_amount"
                 ? discount_value
                 : totalOrder * (discount_value / 100);
+
+        // Check xem co xet gia tri toi thieu hay khong
+        if (discount_min_order_value > totalOrder) {
+            throw new NotFoundError(
+                `Discount require a minium order value of ${discount_min_order_value}!`
+            );
+        }
+
+        /*
+            discount_max_uses_per_user = 2
+        */
 
         return {
             totalOrder,

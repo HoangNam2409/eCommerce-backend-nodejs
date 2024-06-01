@@ -17,7 +17,7 @@ const inventorySchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Shop",
         },
-        inven_reservation: { type: Array, default: [] },
+        inven_reservations: { type: Array, default: [] },
         /* 
         cartId:,
         stock: 1,

@@ -1,6 +1,13 @@
 "use strict";
 
 import { BadRequestError } from "../../core/error.response.js";
+import _CartModel from "../../models/cart.model.js";
+
+const findCartById = async (cartId) => {
+    return await _CartModel
+        .findOne({ _id: cartId, cart_state: "active" })
+        .lean();
+};
 
 const createUserCart = async ({ userId, product, model }) => {
     const query = { cart_userId: userId, cart_state: "active" },
@@ -54,4 +61,5 @@ export {
     updateUserCartQuantity,
     deleteUserCartItem,
     getListUserCart,
+    findCartById,
 };
