@@ -3,7 +3,7 @@
 import { BadRequestError, NotFoundError } from "../core/error.response.js";
 import { findCartById } from "../models/repositories/cart.repo.js";
 import { checkProductByServer } from "../models/repositories/product.repo.js";
-import { acquireLock, releaseLock } from "./redis.service.js";
+// import { acquireLock, releaseLock } from "./redis.service.js";
 import DiscountService from "./discount.service.js";
 import _OrderModel from "../models/order.model.js";
 

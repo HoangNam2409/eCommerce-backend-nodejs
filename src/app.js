@@ -5,6 +5,7 @@ import helmet from "helmet";
 import compression from "compression";
 
 import instanceMongodb from "./dbs/init.mongodb.js";
+import { initRedis } from "./dbs/init.redis.js";
 import { checkOverload } from "./helpers/check.connect.js";
 import routes from "./routes/index.js";
 
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 // init db
 instanceMongodb.getInstance();
 checkOverload();
+initRedis();
 
 // init router
 app.use("/", routes);

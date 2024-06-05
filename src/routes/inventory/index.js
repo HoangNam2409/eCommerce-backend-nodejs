@@ -1,7 +1,7 @@
 "use strict";
 
 import express from "express";
-import { authenticationV2 } from "../../auth/authUtils";
+import { authenticationV2 } from "../../auth/authUtils.js";
 import { asyncHandler } from "../../helpers/asyncHandler.js";
 import inventoryController from "../../controllers/inventory.controller.js";
 

@@ -1,19 +1,20 @@
 "use strict";
 
-import redis from "redis";
 import { promisify } from "util"; // Dùng để chuyển đổi một hàm thành một hàm async/await
-import { reservationInventory } from "../models/repositories/inventory.rep.js";
-const redisClient = redis.createClient(); // Tạo một Server
+import { reservationInventory } from "../models/repositories/inventory.repo.js";
+import { getRedis } from "../dbs/init.redis.js";
+
+const { instanceConnect: redisClient } = getRedis();
 
 // Tạo ra một file async/await
-const pexpire = promisify(redisClient.pExpire).bind(redisClient);
+const pexpire = promisify(redisClient.pexpire).bind(redisClient);
 // Nếu nó tồn tại thì set = 1, không tồn tại thì set = 0
-const setnxAsync = promisify(redisClient.setNX).bind(redisClient);
+const setnxAsync = promisify(redisClient.setnx).bind(redisClient);
 
-/* 
-    Viết một hàm lock 
-    - Nhiệm vụ của acquire lock là khi người này đang thanh toán thì nó giữ lại không cho người 
-    khác thanh toán nữa. Nếu mà người khác vào thì nó sẽ thử 10 lần 
+/*
+    Viết một hàm lock
+    - Nhiệm vụ của acquire lock là khi người này đang thanh toán thì nó giữ lại không cho người
+    khác thanh toán nữa. Nếu mà người khác vào thì nó sẽ thử 10 lần
 */
 const acquireLock = async (productId, quantity, cartId) => {
     // key để khoá
